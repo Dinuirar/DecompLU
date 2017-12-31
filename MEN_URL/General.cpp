@@ -30,10 +30,10 @@ void LUDecomposition(QMatrix5x5 A, QMatrix5x5& L, QMatrix5x5& U) {
         }
     }
 
-//    std::cout<< "####\nL : \n";
-//    DispMatrix(L);
-//    std::cout << "\nU : \n";
-//    DispMatrix(U);
+    std::cout<< "####\nL : \n";
+    DispMatrix(L);
+    std::cout << "\nU : \n";
+    DispMatrix(U);
 //    std::cout << "\nL*U: \n\n";
 //    DispMatrix(L*U);
 //    std::cout << std::endl;

@@ -1,0 +1,510 @@
+\documentclass[a4paper]{article}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\title{Sprawozdanie - Metody Numeryczne \\~~
+\\~~\\
+ Projekt - 9\\~~\\
+~~\\
+~~\\
+Rozwiązywanie URL metodami bezpośrednimi; rozkład LU}
+\author{Owczarzak Mikołaj, Zawrotny Maksym}
+\date{\today}
+\begin{document}
+\maketitle
+~~\\
+~~\\
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Zad.1&Zad.2&Zad.3&Zad4&Zad. 5&Ocena\\\hline
+~~&~~&~~&~~&~~&~~\\
+~~&~~&~~&~~&~~&~~\\
+~~&~~&~~&~~&~~&~~\\\hline
+\end{tabular}
+\end{table}
+\newpage
+\section{Wstęp}
+\subsection{Wprowadzenie do problemu}
+Problem polegał na rozwiązaniu układu równań liniowych
+$$
+\textbf{A}\cdot \textbf{x}=\textbf{b}
+$$
+gdzie:
+$$
+\textbf{A}=
+\left[
+\begin{array}{ccccc}
+2q\cdot 10^{-4} & 1&6&9&10\\
+2\cdot 10^{-4}&1&6&9&10\\
+1&6&6&8&6\\
+5&9&10&7&9\\
+3&4&9&7&9
+\end{array}
+\right]
+\textrm{ i }
+\textbf{b}=
+\left[
+\begin{array}{c}
+10\\
+2\\
+9\\
+9\\
+3
+\end{array}
+\right]
+$$
+Zdecydowano się rozwiązać ten URL przy pomocy dekompozycji macierzy \textbf{A} na macierze: trójkątną dolną \textbf{L} i trójkątną górną \textbf{U}. Przyjęto, że wszystkie dzielenia są wykonalne, niezależnie od wartości parametru q. W szczególności: $q\neq 1$ i $q\neq 0$
+\subsection{Opis metody}
+Metodę LU cechuję następujący algorytm postępowania:
+\begin{enumerate}
+    \item Przedstawienie macierzy układu jako iloczyn macierzy \textbf{LU}. Rozkład ten został został obliczony przy pomocy metody Doolittle'a - zastosowano jawne wzory na każdy element nowych macierzy \textbf{L} i \textbf{U}:
+$$
+u_{ij}=a_{ij}-\sum^{i-1}_{k=1}{l_{ik}\cdot u_{kj}} \textrm{    dla } i\in{\{1;2;3;4;5\}}\textrm{ i } j\in{\{i;i+1;...;5\}}
+$$
+$$
+l_{ji}=\frac{1}{u_{ii}}\cdot (a_{ji}-\sum^{i-1}_{k=1}{l_{jk}u_{ki}}) \textrm{ dla } i\in{\{1;2;3;4;5\}} \textrm{ i } j\in{\{i;i+1;...5\}}
+$$
+W przypadku gdy $q=0$ w algorytmie tym wystąpi problem dzielenia przez zero. Aby go zlikwidować zastosowano - tylko w tym przypadku - zmodyfikowaną wersję algorytmu: Metoda LU-Crouta, która polega na tym, że dla każdej kolumny na diagonali ustawiamy element, który jest największy co do modułu.
+\item
+Znalezienie macierzy odwrotnych $L^{-1}$ i $U^{-1}$ według następujących zależności:
+$$
+l`_{ii}=\frac{1}{l_{ii}}
+$$
+$$
+l`_{ij}=-l`_{ii}\sum^{i-1}_{k=1}{l_{ik}l`_{kj}}
+$$
+$$
+u`_{jj}=\frac{1}{u_{jj}}
+$$
+$$
+u`_{ji}=-u`_{ii}\sum^{i-1}_{k=1}{u_{ki}u`_{jk}}
+$$
+\item
+Korzystając z zależności:
+$$
+\textbf{Ly}=\textbf{b} \to \textbf{y}=\textbf{L}^{-1}\cdot \textbf{b}
+$$
+gdzie \textbf{y} jest pośrednim wektorem pomocniczym, oraz
+$$
+\textbf{Ux}=\textbf{y} \to \textbf{x}=\textbf{U}^{-1}\cdot \textbf{y}
+$$
+otrzymano 
+$$
+\textbf{x} = \textbf{U}^{-1} \cdot \textbf{L}^{-1} \cdot \textbf{b}
+$$
+Macierze $L^{-1}$, $U^{-1}$ oraz $b$ są znane, więc znaleziono $x$.
+\end{enumerate}
+\subsection{Dyskusja liczby rozwiązań w zależności od wartości parametru q}
+Powołując się na następujące własności rzędu macierzy:\newline
+a) rząd macierzy nie ulegnie zmianie, po dodaniu do wiersza/kolumny kombinacji liniowej wierszy/kolumny \newline
+b) rząd macierzy nie ulegnie zmianie, gdy usuniemy wiersz/kolumne zerową lub będącą kombinacją liniową pozostałych kolumn/wierszy\newline
+c) rząd macierzy nie ulegnie zmianie, gdy zamienimy kolejność wierszy/kolumnn \newline \newline
+wykazano, że rząd macierzy \textbf{A} \newline
+\begin {displaymath}
+\mathbf{A} =
+\left[
+\begin{array}{ccccc}
+2q\cdot 10^{-4}&1&6&9&10\\
+2\cdot 10^{-4}&1&6&9&10\\
+1&6&6&8&6\\
+5&9&10&7&10\\
+3&4&9&7&9
+\end{array}
+\right]
+\end{displaymath}
+jest równy rzędowi macierzy \textbf{C} \newline
+\begin{displaymath}
+\mathbf{C} =
+\left[
+\begin{array}{ccccc}
+10&1&6&9&2\cdot 10^{-4}q\\ \\
+0&3,1&3,6&-1,1&3-1,8\cdot 10^{-4}q\\ \\
+0&0&-\frac{120}{31}&\frac{140}{31}&-\frac{131}{31}+\frac{60}{31}\cdot 10^{-4}q\\ \\
+0&0&0&-\frac{16}{3}&\frac{91}{30}\\ \\
+0&0&0&0&2\cdot 10^{-4}(1-q)
+\end{array}
+\right]
+\end{displaymath}
+\newline
+Powołując sie na twierdzenie: rząd macierzy schodkowej jest równy liczbie niezerowych schodków, ustalamy rząd macierzy \textbf{A}
+\newline
+$$
+r_{\mathbf{A}} =
+\left\{
+\begin{array}{ll}
+4&\textrm{gdy $q=1$ gdyż $1-1=0$}\\
+5&\textrm{gdy $q \neq 1$}
+\end{array}
+\right.
+$$
+\newline
+Analogicznie wykazano, że rząd macierzy rozszerzonej \textbf{D}
+\newline
+$$
+\mathbf{D} =
+\left[
+\begin{array}{cccccc}
+2q\cdot 10^{-4}&1&6&9&10&10\\
+2\cdot 10^{-4}&1&6&9&10&2\\
+1&6&6&8&6&9\\
+5&9&10&7&10&9\\
+3&4&9&7&9&3
+\end{array}
+\right]
+$$
+\newline
+jest równy rzędowi macierzy \textbf{E}
+\newline
+$$
+\mathbf{E} =
+\left[
+\begin{array}{cccccc}
+10&1&6&9&2\cdot 10^{-4}q&10\\ \\
+0&3,1&3,6&-1,1&3-1,8\cdot 10^{-4}q&-6\\ \\
+0&0&-\frac{120}{31}&\frac{140}{31}&-\frac{131}{31}+\frac{60}{31}\cdot 10^{-4}q&\frac{417}{31}\\ \\
+0&0&0&-\frac{16}{3}&\frac{91}{30}&-\frac{39}{10}\\ \\
+0&0&0&0&2\cdot 10^{-4}(1-q)&-8
+\end{array}
+\right]
+$$
+Widać, że niezależnie od wartości $q$ wiersz nr 5 nigdy się nie wyzeruje, zatem
+$$
+\bigvee q \in \Re~~r_{\mathbf{D}}=5
+$$
+\newline
+Zatem zgodnie z twierdzeniem Kroneckera-Capellego, rozważany układ równań liniowych ma:
+\newline
+a) dokładnie jedno rozwiązanie  dla $q\neq 1$
+\newline
+b) nie ma rozwiązań dla $q=1$
+\subsection{Rozkład LU macierzy A i B}
+Korzystając z przedstawionych w 1.2.1 wzorów, uzyskano następujący rozkład LU:
+$$
+\textbf{L}=
+\left[
+\begin{array}
+{ccccc}
+1&0&0&0&0\\ \\
+\frac{1}{q}&1&0&0&0\\ \\
+\frac{5000}{q}&\frac{6q-5000}{q-1}&1&0&0\\ \\
+\frac{25000}{q}&\frac{9q-25000}{q-1}&\frac{22}{15}&1&0\\ \\
+\frac{15000}{q}&\frac{4q-1500}{q-1}&\frac{1}{2}&\frac{45}{49}&1
+\end{array}
+\right]
+$$
+$$
+\textbf{U}=
+\left[
+\begin{array}
+{ccccc}
+\frac{q}{5000}&1&6&9&10\\
+0&\frac{q-1}{q}&\frac{6q-6}{q}&\frac{9q-9}{q}&\frac{10q-10}{q}\\
+0&0&-30&-46&-54\\
+0&0&0&-\frac{98}{15}&-\frac{4}{5}\\
+0&0&0&0&-\frac{160}{49}
+\end{array}
+\right]
+$$
+Uzyskany rozkład sprawdzono wykonując mnożenie \textbf{LU}:
+$$
+\left[
+\begin{array}
+{ccccc}
+1&0&0&0&0\\
+\frac{1}{q}&1&0&0&0\\
+\frac{5000}{q}&\frac{6q-5000}{q-1}&1&0&0\\
+\frac{25000}{q}&\frac{9q-25000}{q-1}&\frac{22}{15}&1&0\\
+\frac{15000}{q}&\frac{4q-1500}{q-1}&\frac{1}{2}&\frac{45}{49}&1
+\end{array}
+\right]
+\left[
+\begin{array}
+{ccccc}
+\frac{q}{5000}&1&6&9&10\\
+0&\frac{q-1}{q}&\frac{6q-6}{q}&\frac{9q-9}{q}&\frac{10q-10}{q}\\
+0&0&-30&-46&-54\\
+0&0&0&-\frac{98}{15}&-\frac{4}{5}\\
+0&0&0&0&-\frac{160}{49}
+\end{array}
+\right]
+=
+$$
+
+$$
+=
+\left[
+\begin{array}{ccccc}
+2q\cdot 10^{-4} & 1&6&9&10\\
+2\cdot 10^{-4}&1&6&9&10\\
+1&6&6&8&6\\
+5&9&10&7&9\\
+3&4&9&7&9
+\end{array}
+\right]
+=\textbf{A}
+$$
+Co dowodzi poprawności otrzymanego rozkładu LU \\
+Macierz B powstaje w wyniku zastąpienia pierwszego wiersza macierzy \textbf{A} wierszem jedynek.
+$$
+\textbf{B}=
+\left[
+\begin{array}
+{ccccc}
+1&1&1&1&1\\
+0,0002&1&6&9&10\\
+1&6&6&8&6\\
+5&9&10&7&10\\
+3&4&9&7&9
+\end{array}
+\right]
+$$
+Analogicznie jak dla macierzy \textbf{A}, otrzymujemy rozkład LU macierzy \textbf{B}
+$$
+\textbf{B}=
+\left[
+\begin{array}
+{ccccc}
+1&0&0&0&0\\ \\
+\frac{1}{5000}&1&0&0&0\\ \\
+1&\frac{25000}{4999}&1&0&0\\ \\
+5&\frac{20000}{4999}&\frac{95001}{125000}&1&0\\ \\
+3&\frac{5000}{4999}&\frac{1}{25000}&\frac{312505}{320001}&1
+\end{array}
+\right]
+\cdot
+\left[
+\begin{array}
+{ccccc}
+1&1&1&1&1\\ \\
+0&\frac{4999}{5000}&\frac{29999}{5000}&\frac{44999}{5000}&\frac{49999}{5000}\\ \\
+0&0&-\frac{125000}{4999}&-\frac{190002}{4999}&-\frac{225000}{4999}\\ \\
+0&0&0&-\frac{320001}{62500}&-\frac{4}{5}\\ \\
+0&0&0&0&-\frac{1030000}{320001}
+\end{array}
+\right]
+$$
+\subsection{Wyznacznik macierzy A}
+Wyznacznik dowolnej macierzy kwadratowej \textbf{A}, jest równy iloczynowi wyznaczników macierzy trójkątnych rozkładu LU macierzy \textbf{A}. W naszym przypadku, kazdy element diagonali macierzy \textbf{L} wynosi 1, więc:
+$$
+\det \textbf{L} = 1 \to \det \textbf{A} = \det \textbf{U}
+$$
+$$\det \textbf{A} = \frac{q}{5000} \cdot \frac{q-1}{q} \cdot (-30) \cdot (-\frac{98}{15}) \cdot (-\frac{160}{49}) = (-\frac{16}{125}) \cdot (q-1)
+$$
+Jak widać wyznacznik macierzy układu jest malejącą, liniową funkcją parametru q. W szczególnym przypadku, $\det \textbf{A} = 0$ gdy $q=1$. Wówczas macierz \textbf{A} traci rząd, a URL (zgodnie z rozważaniami z punktu 1.3) jest nieoznaczony.
+\begin{figure}[h]
+\centering
+% \includegraphics [height =6cm]{wykres_detA}
+\caption{Zależność wyznacznika macierzy \textbf{A} od parametru q}
+\label{fig:}
+\end{figure}
+\subsection{Macierze odwrotne przy pomocy rozkładu LU}
+Korzystając ze wzorów podanych w punkcie 1.2.2 odwrócono macierze \textbf{L} i \textbf{U}, otrzymując:
+$$
+\textbf{U}^{-1}=
+\left[
+\begin{array}
+{ccccc}
+\frac{5000}{q}&\frac{-5000}{q-1}&0&0&0\\ \\
+0&\frac{q}{q-1}&\frac{1}{5}&\frac{-3}{98}&\frac{-19}{80}\\ \\
+0&0&\frac{-1}{30}&\frac{23}{98}&\frac{79}{160}\\ \\
+0&0&0&\frac{-15}{98}&\frac{3}{80}\\ \\
+0&0&0&0&\frac{-49}{160}
+\end{array}
+\right]
+$$
+$$
+\textbf{L}^{-1}=
+\left[
+\begin{array}
+{ccccc}
+1&0&0&0&0\\ \\
+-\frac{1}{q}&1&0&0&0\\ \\
+-\frac{4994}{q-1}&\frac{-6+5000}{q-1}&1&0&0\\ \\
+-\frac{264997}{15q-15}&\frac{-3q+265000}{15q-15}&-\frac{22}{15}&1&0\\ \\
+\frac{182540}{49q-49}&\frac{-40q-182500}{49q-40}&\frac{83}{98}&-\frac{45}{49}&1
+\end{array}
+\right]
+$$
+Wiadomo, że $\textbf{A}^{-1}=\textbf{U}^{-1}\cdot \textbf{L}^{-1}$, stąd otrzymujemy:
+$$
+\textbf{A}^{-1}=
+\left[
+\begin{array}
+{ccccc}
+\frac{5000}{q}&\frac{-5000}{q-1}&0&0&0\\ \\
+0&\frac{q}{q-1}&\frac{1}{5}&\frac{-3}{98}&\frac{-19}{80}\\ \\
+0&0&\frac{-1}{30}&\frac{23}{98}&\frac{79}{160}\\ \\
+0&0&0&\frac{-15}{98}&\frac{3}{80}\\ \\
+0&0&0&0&\frac{-49}{160}
+\end{array}
+\right]
+\cdot
+\left[
+\begin{array}
+{ccccc}
+1&0&0&0&0\\ \\
+-\frac{1}{q}&1&0&0&0\\ \\
+-\frac{4994}{q-1}&\frac{-6+5000}{q-1}&1&0&0\\ \\
+-\frac{264997}{15q-15}&\frac{-3q+265000}{15q-15}&-\frac{22}{15}&1&0\\ \\
+\frac{182540}{49q-49}&\frac{-40q-182500}{49q-40}&\frac{83}{98}&-\frac{45}{49}&1
+\end{array}
+\right]
+$$
+$$
+\textbf{A}^{-1}=
+\left[
+\begin{array}
+{ccccc}
+\frac{5000}{q-1}&-\frac{5000}{q-1}&0&0&0\\ \\
+-\frac{5375}{4q-4}&\frac{5375}{4q-4}&\frac{7}{160}&\frac{3}{16}&-\frac{19}{80}\\ \\
+-\frac{17123}{8q-8}&\frac{-2q+17125}{8q-8}&\frac{13}{320}&\frac{-7}{32}&\frac{79}{160}\\ \\
+\frac{11375}{4q-4}&-\frac{11375}{4q-4}&\frac{41}{160}&-\frac{3}{16}&\frac{3}{80}\\ \\
+-\frac{9127}{8q-8}&\frac{2q+9125}{8q-8}&-\frac{83}{320}&\frac{9}{32}&\frac{49}{160}
+\end{array}
+\right]
+$$
+Wynik jest poprawny, gdyż:
+$$
+\textbf{A}\cdot \textbf{A}^{-1} =
+\left[
+\begin{array}{ccccc}
+2q\cdot 10^{-4} & 1&6&9&10\\
+2\cdot 10^{-4}&1&6&9&10\\
+1&6&6&8&6\\
+5&9&10&7&9\\
+3&4&9&7&9
+\end{array}
+\right]
+ \left[
+\cdot
+\begin{array}
+{ccccc}
+\frac{5000}{q-1}&-\frac{5000}{q-1}&0&0&0\\ \\
+-\frac{5375}{4q-4}&\frac{5375}{4q-4}&\frac{7}{160}&\frac{3}{16}&-\frac{19}{80}\\ \\
+-\frac{17123}{8q-8}&\frac{-2q+17125}{8q-8}&\frac{13}{320}&\frac{-7}{32}&\frac{79}{160}\\ \\
+\frac{11375}{4q-4}&-\frac{11375}{4q-4}&\frac{41}{160}&-\frac{3}{16}&\frac{3}{80}\\ \\
+-\frac{9127}{8q-8}&\frac{2q+9125}{8q-8}&-\frac{83}{320}&\frac{9}{32}&\frac{49}{160}
+\end{array}
+\right]
+=\textbf{I}
+$$
+Analogicznie, odwrócono macierze trójkątne $\textbf{L}_{B}^{-1}$ i $\textbf{U}_{B}^{-1}$
+$$
+\textbf{U}_{B}^{-1}=
+\left[
+\begin{array}
+{ccccc}
+1&-\frac{5000}{4999}&-\frac{1}{5}&-\frac{25000}{320001}&\frac{2}{103}\\ \\
+0&\frac{5000}{4999}&\frac{29999}{125000}&-\frac{7501}{320001}&-\frac{25}{103} \\ \\
+0&0&-\frac{4999}{125000}&\frac{31667}{106667}&\frac{500001}{1030000}\\ \\
+0&0&0&-\frac{62500}{320001}&\frac{5}{103}\\ \\
+0&0&0&0&-\frac{320001}{1030000}
+\end{array}
+\right]
+$$
+$$
+\textbf{L}_{B}^{-1}=
+\left[
+\begin{array}
+{ccccc}
+1&0&0&0&0\\ \\
+-\frac{1}{5000}&1&0&0&0 \\ \\
+-\frac{4994}{4999}&-\frac{25000}{4999}&1&0&0\\ \\
+-\frac{264997}{62500}&-\frac{1}{5}&-\frac{-95001}{125000}&1&0\\ \\
+\frac{365080}{320001}&-\frac{257500}{320001}&\frac{158329}{213334}&-\frac{312505}{320001}&1
+\end{array}
+\right]
+$$
+Następnie obliczono $\textbf{B}^{-1}$, jako:
+$$
+\textbf{B}^{-1}=\textbf{U}_{B}^{-1}\textbf{L}_{B}^{-1}=
+\left[
+\begin{array}
+{ccccc}
+\frac{160}{103}&0&-\frac{13}{103}&-\frac{10}{103}&\frac{2}{103}\\ \\
+-\frac{43}{103}&0&\frac{8}{103}&\frac{22}{103}&-\frac{25}{103}\\ \\
+-\frac{17123}{25750}&-\frac{1}{4}&\frac{194987}{2060000}&-\frac{36501}{206000}&\frac{500001}{1030000}\\ \\
+\frac{91}{103}&0&\frac{19}{103}&-\frac{25}{103}&\frac{5}{103}\\ \\
+-\frac{9127}{25750}&-\frac{1}{4}&-\frac{474987}{2060000}&\frac{62501}{206000}&\frac{320001}{1030000}\\ \\
+\end{array}
+\right]
+$$
+Wykonano sprawdzające mnożenie $\textbf{B}\cdot \textbf{B}^{-1}$, w wyniku którego otrzymano macierz jednostkową, zatem otrzymany wynik jest poprawny.
+\subsection{Rozwiązanie dokładne układu równań}
+Znajomość $\textbf{A}^{-1}$ sprawia, że bardzo łatwo możemy wyznaczyć rozwiązanie dokładne badanego układu równań liniowych.
+$$
+\textbf{A} \textbf{x}=\textbf{b} \to \textbf{x}=\textbf{A}^{-1} \textbf{b}
+$$
+$$
+\textbf{x}=
+ \left[
+\begin{array}
+{ccccc}
+\frac{5000}{q-1}&-\frac{5000}{q-1}&0&0&0\\ \\
+-\frac{5375}{4q-4}&\frac{5375}{4q-4}&\frac{7}{160}&\frac{3}{16}&-\frac{19}{80}\\ \\
+-\frac{17123}{8q-8}&\frac{-2q+17125}{8q-8}&\frac{13}{320}&\frac{-7}{32}&\frac{79}{160}\\ \\
+\frac{11375}{4q-4}&-\frac{11375}{4q-4}&\frac{41}{160}&-\frac{3}{16}&\frac{3}{80}\\ \\
+-\frac{9127}{8q-8}&\frac{2q+9125}{8q-8}&-\frac{83}{320}&\frac{9}{32}&\frac{49}{160}
+\end{array}
+\right]
+\left[
+\begin{array}
+{c}
+10\\
+2\\
+9\\
+9\\
+3
+\end{array}
+\right]
+=
+\left[
+\begin{array}
+{c}
+\frac{4000}{q-1}\\ \\
+\frac{219q-1720219}{160q-160}\\ \\
+\frac{-199q-5479161}{320q-320}\\ \\
+\frac{117q+3639883}{160q-160}\\ \\
+\frac{-71q-2920569}{320q-320}
+\end{array}
+\right]
+$$
+Dokonano sprawdzenia wyniku i wykazano, że otrzymano poprawny wektor rozwiązań:
+$$
+\left[
+\begin{array}{ccccc}
+2q\cdot 10^{-4} & 1&6&9&10\\
+2\cdot 10^{-4}&1&6&9&10\\
+1&6&6&8&6\\
+5&9&10&7&9\\
+3&4&9&7&9
+\end{array}
+\right]
+\left[
+\begin{array}
+{c}
+\frac{4000}{q-1}\\ \\
+\frac{219q-1720219}{160q-160}\\ \\
+\frac{-199q-5479161}{320q-320}\\ \\
+\frac{117q+3639883}{160q-160}\\ \\
+\frac{-71q-2920569}{320q-320}
+\end{array}
+\right]
+=
+\left[
+\begin{array}
+{c}
+10\\
+2\\
+9\\
+9\\
+3
+\end{array}
+\right]
+$$
+\section{Wyniki procedury numerycznej}
+\section{Wnioski}
+\end{document}

@@ -1,0 +1,12 @@
+2.1. Opis metody ( main() )
+2.2. Dyskusja liczby rozwiązań w zależności od wartości parametru q
+
+2.3. Rozkład LU macierzy A i B
+2.4. Rozwiązanie układu równań metodą numeryczną (x)
+2.5. Sprawdzenie wyników i dokładności metody - odchylenie E(q)
+2.6. Wyznacznik macierzy A
+ - zależność detA od q
+ - związek między detA a E(q)
+2.7. Macierze odwrotne przy pomocy rozkładu LU (invU, invL, invA, invUB, invLB, invB + sprawdzenie czy A*invA = I, B*invB = I)
+
+załącznik: szczegółowe funkcje
