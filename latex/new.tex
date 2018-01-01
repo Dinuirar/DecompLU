@@ -506,5 +506,264 @@ $$
 \right]
 $$
 \section{Wyniki procedury numerycznej}
+\subsection{Rozkład LU macierzy A}
+Dla wartości parametru $q = 0,1$ oraz $q = 10$ rozkład macierzy $\textbf{A} = \textbf{L} \cdot \textbf{U}$:
+\subparagraph{$ q = 0,1 $} \hfill \\
+$$
+\left[
+\begin{array}{ccccc}
+0.000020&1&6&9&10\\ 
+0.000200&1&6&9&10\\ 
+1.000000&6&6&8&6\\ 
+5.000000&9&10&7&10\\ 
+3.000000&4&9&7&9
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccccc}
+1&0&0&0&0\\ 
+10&1&0&0&0\\ 
+50000&5555&1&0&0\\ 
+250000&27777&1&1&0\\ 
+150000&16666&0&1&1
+\end{array}
+\right]
+\cdot
+\left[
+\begin{array}{ccccc}
+0.000020&1&6&9&10\\ 
+0.000000&-9&-54&-81&-90\\ 
+0.000000&0&-30&-46&-54\\ 
+0.000000&0&0&-7&-1\\ 
+0.000000&0&0&0&-3
+\end{array}
+\right]
+$$
+\subparagraph{$ q = 10 $} \hfill \\
+$$
+\left[
+\begin{array}{ccccc}
+0.002000&1&6&9&10\\ 
+0.000200&1&6&9&10\\ 
+1.000000&6&6&8&6\\ 
+5.000000&9&10&7&10\\ 
+3.000000&4&9&7&9
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccccc}
+1.00&0&0&0&0\\ 
+0.10&1&0&0&0\\ 
+500.00&-549&1&0&0\\ 
+2500.00&-2768&1&1&0\\ 
+1500.00&-1662&1&1&1
+\end{array}
+\right]
+\cdot
+\left[
+\begin{array}{ccccc}
+0.0020&1&6&9&10\\ 
+0.0000&1&5&8&9\\ 
+0.0000&0&-30&-46&-54\\ 
+0.0000&0&0&-7&-1\\ 
+0.0000&0&0&0&-3
+\end{array}
+\right]
+$$
+\subsection{Rozkład LU macierzy B}
+$$ \textbf{B} = \textbf{L}_B \cdot \textbf{U}_B$$
+$$
+\left[
+\begin{array}{ccccc}
+1&1&1&1&1\\ 
+0.0002&1&6&9&10\\ 
+1&6&6&8&6\\ 
+5&9&10&7&10\\ 
+3&4&9&7&9
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccccc}
+1&0&0&0&0\\ 
+0.0002&1&0&0&0\\ 
+1&5&1&0&0\\ 
+5&4&1&1&0\\ 
+3&1&0&1&1
+\end{array}
+\right]
+\cdot
+\left[
+\begin{array}{ccccc}
+1&1&1&1&1\\ 
+0&1&6&9&10\\ 
+0&0&-25&-38&-45\\ 
+0&0&0&-5&-1\\ 
+0&0&0&0&-3
+\end{array}
+\right]
+$$
+\subsection{Rozwiązanie układu}
+Rozwiązanie URL postaci $\textbf{A} \cdot \textbf{x} = \textbf{b}$ obliczano korzystając z zależności: 
+$$
+\textbf{x} = \textbf{U}^{-1} \cdot \textbf{L}^{-1} \cdot \textbf{b}
+$$
+
+Dla wartości parametru $q = 0,1$ wynik jest
+$$
+\textbf{x} =
+\left[
+\begin{array}{c}
+-44444.4444444\\ 
+11945.8131944\\ 
+19024.9336805\\ 
+-25277.0465280\\ 
+10140.8892363
+\end{array}
+\right]
+$$
+\paragraph{Sprawdzenie}
+$$
+\textbf{A} \cdot \textbf{x} = 
+\left[
+\begin{array}{ccccc}
+0.0000200&1&6&9&10\\ 
+0.0002000&1&6&9&10\\ 
+1&6&6&8&6\\ 
+5&9&10&7&10\\ 
+3&4&9&7&9
+\end{array}
+\right]
+\cdot 
+\left[
+\begin{array}{c}
+-44444.4444444\\ 
+11945.8131944\\ 
+19024.9336805\\ 
+-25277.0465280\\ 
+10140.8892363
+\end{array}
+\right]
+= 
+\left[
+\begin{array}{c}
+10.0000000\\ 
+2.0000000\\ 
+8.9999991\\ 
+9.0000000\\ 
+3.0000000
+\end{array}
+\right]
+$$
+Jak widać uzyskano bardzo dobry wynik. Jedyna występująca różnica jest na siódmym miejscu po przecinku, co świadczy o poprawności znalezionego rozwiązania.
+\subsection{Wyznacznik macierzy A}
+\subsubsection{Zależność detA(q)}
+\subsubsection{Sprawdzenie wyniku i dokładności metody - odchylenie E(q)}
+\subsubsection{Związek między wyznacznikiem detA(q) a dokładnością - odchylenie E(q)}
+\subsection{Macierze odwrotne przy pomocy rozkładu LU}
+\subsubsection{Macierz A}
+$\textbf{U}_A^{-1}$, $\textbf{L}_A^{-1}, \textbf{A}^{-1}$, sprawdzenie $\textbf{A} \cdot \textbf{A}^{-1} = \textbf{I}$
+\paragraph{Wartość parametru $q = 0,1$}
+$$
+\textbf{U}_A^{-1} = 
+\left[
+\begin{array}{ccccc}
+50000.0000000&5555.5555556&0.0000000&0.0000000&0.0000000\\ 
+0.0000000&-0.1111111&0.2000000&-0.0306122&-0.2375000\\ 
+0.0000000&0.0000000&-0.0333333&0.2346939&0.4937500\\ 
+0.0000000&0.0000000&0.0000000&-0.1530612&0.0375000\\ 
+0.0000000&0.0000000&0.0000000&0.0000000&-0.3062500
+\end{array}
+\right]
+$$
+$$
+\textbf{L}_A^{-1} = 
+\left[
+\begin{array}{ccccc}
+1.0000000&0.0000000&0.0000000&0.0000000&0.0000000\\ 
+-10.0000000&1.0000000&0.0000000&0.0000000&0.0000000\\ 
+5548.8888889&-5554.8888889&1.0000000&0.0000000&0.0000000\\ 
+19629.4074074&-19629.6074074&-1.4666667&1.0000000&0.0000000\\ 
+-4139.2290251&4138.4126986&0.8469388&-0.9183673&1.0000000
+\end{array}
+\right]
+$$
+$$
+\textbf{A}^{-1} = 
+\left[
+\begin{array}{ccccc}
+-5555.5555556&5555.5555556&0.0000000&0.0000000&0.0000000\\ 
+1493.0555556&-1493.0555556&0.0437500&0.1875000&-0.2375000\\ 
+2378.1944444&-2378.4444444&0.0406250&-0.2187500&0.4937500\\ 
+-3159.7222223&3159.7222223&0.2562500&-0.1875000&0.0375000\\ 
+1267.6388889&-1267.3888889&-0.2593750&0.2812500&-0.3062500
+\end{array}
+\right]
+$$
+$$
+\textbf{A} \cdot \textbf{A}^{-1} = 
+\left[
+\begin{array}{ccccc}
+1.0000000&-0.0000000&-0.0000000&0.0000000&-0.0000000\\ 
+0.0000000&1.0000000&-0.0000000&0.0000000&-0.0000000\\ 
+-0.0000001&0.0000001&1.0000000&0.0000000&-0.0000000\\ 
+0.0000000&-0.0000000&-0.0000000&1.0000000&-0.0000000\\ 
+0.0000000&-0.0000000&-0.0000000&0.0000000&1.0000000
+\end{array}
+\right]
+$$
+\subsubsection{Macierz B}
+$\textbf{U}_B^{-1}$, $\textbf{L}_B^{-1}$, $\textbf{B}^{-1}$, sprawdzenie $\textbf{B} \cdot \textbf{B}^{-1} = \textbf{I}$ \\
+$$
+\\ \textbf{U}_B^{-1} = 
+\left[
+\begin{array}{ccccc}
+1.0000000&-1.0002000&-0.2000000&-0.0781248&0.0194175\\ 
+0.0000000&1.0002000&0.2399920&-0.0234406&-0.2427184\\ 
+0.0000000&0.0000000&-0.0399920&0.2968772&0.4854379\\ 
+0.0000000&0.0000000&0.0000000&-0.1953119&0.0485437\\ 
+0.0000000&0.0000000&0.0000000&0.0000000&-0.3106806
+\end{array}
+\right] \\ \\ \hfill
+$$
+$$
+\\ \textbf{L}_B^{-1} = 
+\left[
+\begin{array}{ccccc}
+1.0000000&0.0000000&0.0000000&0.0000000&0.0000000\\ 
+-0.0002000&1.0000000&0.0000000&0.0000000&0.0000000\\ 
+-0.9989998&-5.0010002&1.0000000&0.0000000&0.0000000\\ 
+-4.2399520&-0.2000000&-0.7600080&1.0000000&0.0000000\\ 
+1.1408714&-0.8046850&0.7421649&-0.9765751&1.0000000
+\end{array}
+\right]
+$$
+$$
+\\ \textbf{B}^{-1} = 
+\left[
+\begin{array}{ccccc}
+1.5533981&0.0000000&-0.1262136&-0.0970874&0.0194175\\ 
+-0.4174757&0.0000000&0.0776699&0.2135922&-0.2427184\\ 
+-0.6649709&-0.2500000&0.0946539&-0.1771893&0.4854379\\ 
+0.8834951&-0.0000000&0.1844660&-0.2427184&0.0485437\\ 
+-0.3544466&0.2500000&-0.2305762&0.3034029&-0.3106806
+\end{array}
+\right]
+$$
+$$
+\\ \\ \textbf{B} \cdot \textbf{B}^{-1} = 
+\left[
+\begin{array}{ccccc}
+1.0000000&0.0000000&-0.0000000&0.0000000&-0.0000000\\ 
+-0.0000000&1.0000000&-0.0000000&0.0000000&0.0000000\\ 
+-0.0000000&0.0000000&1.0000000&0.0000000&0.0000000\\ 
+-0.0000000&0.0000000&-0.0000000&1.0000000&-0.0000000\\ 
+-0.0000000&0.0000000&-0.0000000&0.0000000&1.0000000
+\end{array}
+\right]
+$$
 \section{Wnioski}
+Metody numeryczne pozwalają na szybkie rozwiązywanie złożonych problemów. Przy opracowywaniu konkretnego rozwiązania należy jednak mieć na uwadze wymaganą dokładność i szczegółowo przeanalizować problem. 
 \end{document}

@@ -19,8 +19,8 @@ int main() {
 
     WelcomingMessage();
     DefaultModeMessage();
-    //q = GetParameter();
-    q = 2; // do testow wartosc zafixowana
+    q = GetParameter();
+    //q = 2; // do testow wartosc zafixowana
     if (q == 0) {
         SetMatrixACrout(q, A);
     }
@@ -57,7 +57,7 @@ int main() {
         }
         ofstream file;
         file.open("dataEq.txt");
-        for (int i = 0; i < qis.size(); i++) {
+        for (unsigned int i = 0; i < qis.size(); i++) {
             //        file << qis[i] << "," << Es[i] << endl;
         }
         file.close();
@@ -76,48 +76,56 @@ int main() {
         }
         ofstream file;
         file.open("dataDetq.txt");
-        for (int i = 0; i < qis.size(); i++) {
+        for (unsigned int i = 0; i < qis.size(); i++) {
                     file << qis[i] << "," << dets[i] << endl;
         }
         file.close();
     }
     /////////////////////////////////////////////////////////////////
-    QMatrix5x5 invA = InvertUpperMatrix(UA) * InvertLowerMatrix(LA);
-    cout << "\ninvA = invU * invL: \n";
-    DispMatrix( invA );
-    cout << "\nA * invA = \n";
-    DispMatrix( A * invA);
-    /////////////////////////////////////////////////////////////////
-    QMatrix5x5 B, LB, UB;
-    SetMatrixB(B);
-    LUDecomposition(B, LB, UB);
-    QMatrix5x5 invB = InvertUpperMatrix(UB) * InvertLowerMatrix(LB);
-    cout << "\ninvB = invU * invL\n";
-    DispMatrix( invB );
-    cout << "\nB * invB = \n";
-    DispMatrix( B * invB );
+//    cout << "\nA: \n";
+//    DispMatrixForLatex(A,6);
+//    cout << "\nL_A: \n";
+//    DispMatrixForLatex(LA, 6);
+//    cout << "\nU_A: \n";
+//    DispMatrixForLatex(UA,6);
+
+//    QMatrix5x5 invUA = InvertUpperMatrix(UA),
+//            invLA = InvertLowerMatrix(LA),
+//            invA =  invUA*invLA;
+//    DispMatrixForLatex(invUA, "invUA", 7);
+//    DispMatrixForLatex(invLA, "invLA", 7);
+//    DispMatrixForLatex(invA, "invA", 7);
+//    DispMatrixForLatex(A*invA, "A*invA", 7);
+
+//    QMatrix5x5 B, LB, UB;
+//    SetMatrixB(B);
+//    LUDecomposition(B, LB, UB);
+
+//    cout << "\nB: \n";
+//    DispMatrixForLatex(B,6);
+//    cout << "\nL_B: \n";
+//    DispMatrixForLatex(LB, 6);
+//    cout << "\nU_B: \n";
+//    DispMatrixForLatex(UB,6);
+
+//    QMatrix5x5 invUB = InvertUpperMatrix(UB),
+//            invLB = InvertLowerMatrix(LB),
+//            invB =  invUB*invLB;
+//    DispMatrixForLatex(invUB, "invUB", 7);
+//    DispMatrixForLatex(invLB, "invLB", 7);
+//    DispMatrixForLatex(invB, "invB", 7);
+//    DispMatrixForLatex(B*invB, "B*invB", 7);
+
+//    DispMatrixForLatex(A, "A = ", 7);
+//    DispMatrixForLatex(x, "x = ", 7);
+//    DispMatrixForLatex(A*x, "Ax = ", 7);
+//    DispMatrixForLatex(b, "b = ", 0);
 
 //    cout << "E(q) dla q = " << q << " wynosi " << E << "\n";
 
 //    cout << "\ndekompozycja LU macierzy A: \n";
 //    QMatrix5x5 decLU = MergeLandU(L, U);
 //    DispMatrix( decLU );
-
-//    cout <<"\ndetA = ";
-//    cout << CalcDeterminant(decLU) << "\n";
-
-//    cout << "\nmacierz rozwiazan x: \n";
-//    DispMatrix( x );
-
-
-//    cout << "\ndekompozycja LU:\n";
-//    DispMatrix(decLU);
-
-//    cout << "\nL:\n";
-//    DispMatrix(L);
-
-//    cout << "\nU:\n";
-//    DispMatrix(U);
 
     return 0;
 }

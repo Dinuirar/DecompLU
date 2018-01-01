@@ -24,11 +24,9 @@ void WelcomingMessage() {
             "Czy chcesz rozwiazac uklad domyslny z parametrem? [T/N]\n";
 }
 
-const int HowManyDecimal = 0;
-
 void DispMatrix(QMatrix5x5 A) {
     int tsizeRow = 5, tsizeCol = 5;
-    for (int i=0; i<tsizeRow; i++) {
+    for (int i = 0; i < tsizeRow; i++) {
         for (int j=0; j<tsizeCol; j++) {
             std::cout << std::setiosflags (std::ios::fixed) << std::setprecision(HowManyDecimal) << A(i, j) << "\t";
         }
@@ -38,7 +36,7 @@ void DispMatrix(QMatrix5x5 A) {
 
 void DispMatrix(QMatrix5x1 A) {
     int tsizeRow = 5, tsizeCol = 1;
-    for (int i=0; i<tsizeRow; i++) {
+    for (int i = 0; i < tsizeRow; i++) {
         for (int j=0; j<tsizeCol; j++) {
             std::cout << std::setiosflags (std::ios::fixed) << std::setprecision(HowManyDecimal) << A(i, j) << "\t";
         }
@@ -46,10 +44,75 @@ void DispMatrix(QMatrix5x1 A) {
     }
 }
 
-// custom matrices mode:
-void CustomModeMessage(){
-    std::cout << "Obliczenia dla postaci rownania Ax = b, gdzie\n"
-                 "A - macierz o wymiarach 5x5, \n"
-                 "b - macierz o wymiarach 5x1 (5 wierszy, 1 kolumna) \n"
-                 "x - szukana macierz rozwiazan o wymiarach 1x5\n";
+void DispMatrixForLatex(QMatrix5x5 A, std::string MatrixName, const int HowManyDecimal) {
+    int tsizeRow = 5, tsizeCol = 5;
+    std::cout << "\n" << MatrixName << "\n"
+              << "\\left[\n"
+              << "\\begin{array}{";
+    for( int i = 0; i < tsizeCol; i++ ) std::cout<<"c";
+    std::cout << "}\n";
+    for ( int i = 0; i < tsizeRow; i++ ) {
+        for ( int j = 0; j < tsizeCol; j++ ) {
+            if(j == 0)
+                std::cout << std::setiosflags (std::ios::fixed) << std::setprecision(HowManyDecimal) << A(i, j);
+            else std::cout<< std::setprecision(0) << A(i, j);
+            if( j != tsizeCol-1 ) std::cout << "&";
+        }
+        if( i != tsizeRow-1 ) std::cout<<"\\\\ \n";
+    }
+    std::cout<<"\n\\end{array}\n"
+               "\\right]\n\n";
+}
+
+void DispMatrixForLatex(QMatrix5x1 A, std::string MatrixName, const int HowManyDecimal) {
+    int tsizeRow = 5, tsizeCol = 1;
+    std::cout << "\n" << MatrixName << "\n"
+              << "\\left[\n"
+              << "\\begin{array}{";
+    for( int i = 0; i < tsizeCol; i++ ) std::cout<<"c";
+    std::cout << "}\n";
+    for ( int i = 0; i < tsizeRow; i++ ) {
+        for ( int j = 0; j < tsizeCol; j++ ) {
+            std::cout << std::setiosflags (std::ios::fixed) << std::setprecision(HowManyDecimal) << A(i, j);
+            if( j != tsizeCol-1 ) std::cout << "&";
+        }
+        if( i != tsizeRow-1 ) std::cout<<"\\\\ \n";
+    }
+    std::cout<<"\n\\end{array}\n"
+               "\\right]\n";
+}
+
+void DispMatrixForLatex(QMatrix5x1 A, const int HowManyDecimal) {
+    int tsizeRow = 5, tsizeCol = 1;
+    std::cout << "\\left[\n"
+        "\\begin{array}{";
+    for( int i = 0; i < tsizeCol; i++ ) std::cout<<"c";
+    std::cout << "}\n";
+    for ( int i = 0; i < tsizeRow; i++ ) {
+        for ( int j = 0; j < tsizeCol; j++ ) {
+            std::cout << std::setiosflags (std::ios::fixed) << std::setprecision(HowManyDecimal) << A(i, j);
+            if( j != tsizeCol-1 ) std::cout << "&";
+        }
+        if( i != tsizeRow-1 ) std::cout<<"\\\\ \n";
+    }
+    std::cout<<"\n\\end{array}\n"
+               "\\right]\n";
+}
+
+void DispMatrixForLatex(QMatrix5x5 A, const int HowManyDecimal) {
+    int tsizeRow = 5, tsizeCol = 5;
+    std::cout << "\\left[\n"
+        "\\begin{array}{";
+    for( int i = 0; i < tsizeCol; i++ ) std::cout<<"c";
+    std::cout << "}\n";
+    for ( int i = 0; i < tsizeRow; i++ ) {
+        for ( int j = 0; j < tsizeCol; j++ ) {
+            if(j == 0) std::cout << std::setiosflags (std::ios::fixed) << std::setprecision(HowManyDecimal) << A(i, j);
+            else std::cout<< std::setprecision(0) << A(i, j);
+            if( j != tsizeCol-1 ) std::cout << "&";
+        }
+        if( i != tsizeRow-1 ) std::cout<<"\\\\ \n";
+    }
+    std::cout<<"\n\\end{array}\n"
+               "\\right]\n";
 }

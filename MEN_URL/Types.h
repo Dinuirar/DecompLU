@@ -7,5 +7,4 @@ typedef double Real;
 typedef QGenericMatrix<5,5,Real> QMatrix5x5;
 typedef QGenericMatrix<1,5,Real> QMatrix5x1; // 5 rows, 1 column
 
-
 #endif // TYPES_H
