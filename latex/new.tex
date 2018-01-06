@@ -3,6 +3,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
 \title{Sprawozdanie - Metody Numeryczne \\~~
 \\~~\\
  Projekt - 9\\~~\\
@@ -296,7 +298,7 @@ $$
 Jak widać wyznacznik macierzy układu jest malejącą, liniową funkcją parametru q. W szczególnym przypadku, $\det \textbf{A} = 0$ gdy $q=1$. Wówczas macierz \textbf{A} traci rząd, a URL (zgodnie z rozważaniami z punktu 1.3) jest nieoznaczony.
 \begin{figure}[h]
 \centering
-% \includegraphics [height =6cm]{wykres_detA}
+\includegraphics [height=6cm]{wykres_detA.PNG}
 \caption{Zależność wyznacznika macierzy \textbf{A} od parametru q}
 \label{fig:}
 \end{figure}
@@ -605,6 +607,7 @@ $$
 \end{array}
 \right]
 $$
+\newpage
 \subsection{Rozwiązanie układu}
 Rozwiązanie URL postaci $\textbf{A} \cdot \textbf{x} = \textbf{b}$ obliczano korzystając z zależności: 
 $$
@@ -658,10 +661,191 @@ $$
 \right]
 $$
 Jak widać uzyskano bardzo dobry wynik. Jedyna występująca różnica jest na siódmym miejscu po przecinku, co świadczy o poprawności znalezionego rozwiązania.
-\subsection{Wyznacznik macierzy A}
-\subsubsection{Zależność detA(q)}
-\subsubsection{Sprawdzenie wyniku i dokładności metody - odchylenie E(q)}
-\subsubsection{Związek między wyznacznikiem detA(q) a dokładnością - odchylenie E(q)}
+
+\begin{table}[H]
+\paragraph{Wyniki dla innych wartości parametru $q$} \hfill \\
+\begin{tabular}{|c|c|c|}
+\hline
+$q$ & wynik dokładny & wynik obliczony numerycznie \\
+\hline
+-5 
+& 
+$$
+\left[
+\begin{array}{c}
+-666.6666667\\ 
+1793.0354167\\ 
+2853.2114583\\ 
+-3790.9354167\\ 
+1520.9447917
+\end{array}
+\right]
+$$
+& 
+$$
+\left[
+\begin{array}{c}
+-6666.6666667\\ 
+1793.0354167\\ 
+2853.2114583\\ 
+-3790.9354167\\ 
+1520.9447917
+\end{array}
+\right]
+$$ 
+\\
+\hline
+-2 &
+$$
+\left[
+\begin{array}{c}
+-1333.3333333\\ 
+3584.7020833\\ 
+5707.0447917\\ 
+-7582.6020833\\ 
+3042.1114583
+\end{array}
+\right]
+$$
+& 
+$$
+\left[
+\begin{array}{c}
+-13333.3333333\\ 
+3584.7020833\\ 
+5707.0447917\\ 
+-7582.6020833\\ 
+3042.1114583
+\end{array}
+\right]
+$$
+\\
+\hline
+0 & 
+$$
+\left[
+\begin{array}{c}
+-4000.0000000\\ 
+10751.3687500\\ 
+17122.3781250\\ 
+-22749.2687500\\ 
+9126.7781250
+\end{array}
+\right]
+$$ 
+& 
+$$
+\left[
+\begin{array}{c}
+-4000.0000000\\ 
+10751.3687500\\ 
+17122.3781250\\ 
+-22749.2687500\\ 
+9126.7781250
+\end{array}
+\right]
+$$ 
+\\
+\hline
+2 & 
+$$
+\left[
+\begin{array}{c}
+4000.0000000\\ 
+-10748.6312500\\ 
+-17123.6218750\\ 
+22750.7312500\\ 
+-9127.2218750
+\end{array}
+\right]
+$$
+& 
+$$
+\left[
+\begin{array}{c}
+40000.0000000\\ 
+-10748.6312500\\ 
+-17123.6218750\\ 
+22750.7312500\\ 
+-9127.2218750
+\end{array}
+\right]
+$$
+\\
+\hline
+5 & 
+$$
+\left[
+\begin{array}{c}
+1000.0000000\\ 
+-2686.1312500\\ 
+-4281.3718750\\ 
+5688.2312500\\ 
+-2281.9718750
+\end{array}
+\right]
+$$ 
+& 
+$$
+\left[
+\begin{array}{c}
+10000.0000000\\ 
+-2686.1312500\\ 
+-4281.3718750\\ 
+5688.2312500\\ 
+-2281.9718750
+\end{array}
+\right]
+$$ 
+\\
+\hline
+10 & 
+$$
+\left[
+\begin{array}{c}
+444.4444444\\ 
+-1193.0756944\\ 
+-1903.1774306\\ 
+2528.5090278\\ 
+-1014.3329861
+\end{array}
+\right]
+$$ 
+& 
+$$
+\left[
+\begin{array}{c}
+4444.4444444\\ 
+-1193.0756944\\ 
+-1903.1774306\\ 
+2528.5090278\\ 
+-1014.3329861
+\end{array}
+\right]
+$$ 
+\\
+\hline
+\end{tabular}
+\caption{Porównanie wyników obliczeń, przy zapisie dziesiętnym ułamków z obliczeń dokładnych.}
+\end{table} \\
+
+\subsection{Dokładność metody - odchylenie E(q)}
+Odchylenie E(q) obliczono ze wzoru
+$$
+E(q) = \frac{1}{5} \sqrt{ 
+\sum_{i=1}^{5} (c_i - b_i)^2 }
+$$
+gdzie 
+$c_{i}$ to macierz obliczana ze wzoru $\textbf{A}_i \cdot x = c_i$, \\ 
+$\textbf{A}_i$ - macierz A dla konkretnej wartości parametru $q$, \\
+$b_i$ - macierz $b$. 
+\begin{figure}[H]
+\centering
+\includegraphics[height=6cm]{wykr_eq.png} 
+\caption{Zależność odchylenia E od parametru q}
+\label{fig:}
+\end{figure} \\
+Można zauważyć, że dla wartości $q$ bliskich 1 gwałtownie rośnie wartość tego odchylenia, wraz ze zbliżaniem się wartości wyznacznika do 0 (por. rys. 1).
 \subsection{Macierze odwrotne przy pomocy rozkładu LU}
 \subsubsection{Macierz A}
 $\textbf{U}_A^{-1}$, $\textbf{L}_A^{-1}, \textbf{A}^{-1}$, sprawdzenie $\textbf{A} \cdot \textbf{A}^{-1} = \textbf{I}$

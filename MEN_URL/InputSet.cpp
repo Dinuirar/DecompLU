@@ -33,14 +33,6 @@ void SetMatrixA(Real q, QMatrix5x5& A) {
     }
 }
 
-// specjalna wersja SetMatrixA() -> na diagonali ustawic element ktory w danej kolumnie jest najwiekszy
-void SetMatrixACrout(Real parameter, QMatrix5x5& A) {
-
-    // hardcode
-
-    std::cout << "not implemented\n";
-}
-
 void SetMatrixB(QMatrix5x5& B) {
     const int tsizeRow = 5, tsizeCol = 5;
     Real t[tsizeRow][tsizeCol] = {

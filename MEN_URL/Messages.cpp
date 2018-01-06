@@ -66,7 +66,7 @@ void DispMatrixForLatex(QMatrix5x5 A, std::string MatrixName, const int HowManyD
 
 void DispMatrixForLatex(QMatrix5x1 A, std::string MatrixName, const int HowManyDecimal) {
     int tsizeRow = 5, tsizeCol = 1;
-    std::cout << "\n" << MatrixName << "\n"
+    std::cout << "\n" << MatrixName << "\n$$\n"
               << "\\left[\n"
               << "\\begin{array}{";
     for( int i = 0; i < tsizeCol; i++ ) std::cout<<"c";
@@ -79,7 +79,7 @@ void DispMatrixForLatex(QMatrix5x1 A, std::string MatrixName, const int HowManyD
         if( i != tsizeRow-1 ) std::cout<<"\\\\ \n";
     }
     std::cout<<"\n\\end{array}\n"
-               "\\right]\n";
+               "\\right]\n$$\n";
 }
 
 void DispMatrixForLatex(QMatrix5x1 A, const int HowManyDecimal) {
